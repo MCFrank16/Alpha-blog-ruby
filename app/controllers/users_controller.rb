@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     def update
         if @user.update(user_params)
             flash[:notice] = "User updated successfully"
-            redirect_to articles_path
+            redirect_to @user
         else
             render 'edit'
         end
@@ -29,11 +29,11 @@ class UsersController < ApplicationController
     end
 
     def show
-        @articles = @user.articles
+        @articles = @user.articles.paginate(page: params[:page], per_page: 5)
     end
 
     def index
-        @users = User.all
+        @users = User.paginate(page: params[:page], per_page: 5)
     end
 
     private
